@@ -1,66 +1,53 @@
 <link rel="import" href="../polymer/polymer.html">
 
 <dom-module id="bar-chart">
-  <template>
-    <style>
-      :host {
-        display: block;
+<template>
+  <style>
+  :host {
+    display: block;
+  }
+
+  </style>
+
+  <svg></svg>
+
+  <script type="text/javascript">
+
+  var w = 800; var h = "700";
+  var svg = d3.select("svg");
+  svg.attr("width",w).attr("high",h);
+  var barPadding = 1;
+
+  var w = 500; var h = 100;
+
+      // var dataset = [ 5, 10, 13, 19, 21, 25, 22, 18, 15, 13,
+      //         11, 12, 15, 20, 18, 17, 16, 18, 23, 25 ];
+
+      var dataset = [];
+      for(var i = 0; i < 10; i++){
+        var newNumber = Math.floor(Math.random() *30);
+        dataset.push(newNumber);
       }
-      
-    </style>
- 
-      <svg></svg>
-
-     <script type="text/javascript">
-
-     var w = 800; var h = "700";
-     var svg = d3.select("svg");
-      svg.attr("width",w).attr("high",h);
-      var w = 500; var h = 100;
-      
-      var dataset = [ 5, 10, 13, 19, 21, 25, 22, 18, 15, 13,
-              11, 12, 15, 20, 18, 17, 16, 18, 23, 25 ];
-
-      var barPadding = 1;
-
-      // for(var i = 0; i < 10; i++){
-      //   var newNumber = Math.floor(Math.random() *30);
-      //   dataset.push(newNumber);
-      // }
-
-       
-      
 
       svg.selectAll("rect")
-         .data(dataset)
-         .enter()
-         .append("rect")
-         .attr("x", function(d, i) {
-            return i * (w / dataset.length);
-         })
-         .attr("y", function(d) {
-            return h - (d * 4);
-         })
-         .attr("width", w / dataset.length - barPadding)
-         .attr("height", function(d) {
-            return d * 4;
-         })
-         .attr("fill", function(d) {
-          return "rgb(0, 0, " + (d * 10) + ")";
-         });
+      .data(dataset)
+      .enter()
+      .append("rect")
+      .attr("x", function(d, i) {
+        return i * (w / dataset.length);
+      })
+      .attr("y", function(d) {
+        return h - (d * 4);
+      })
+      .attr("width", w / dataset.length - barPadding)
+      .attr("height", function(d) {
+        return d * 4;
+      })
+      .attr("fill", function(d) {
+        return "rgb(0, 0, " + (d * 10) + ")";
+      });
 
-      
-      // var bars = d3.select("svg").select("g")
-      //       .data(dataset)
-      //       .enter()
-      //       .append("g");
-      //      bars.attr("class","bar").style("height", function(d){
-      //             var barHeight = d * 5;
-      //             return barHeight + "px";
-      //       });
-     
-
-      
+      // Draw cicrles charts
       // var circles = svg.selectAll("circle")
       //   .data(dataset)
       //   .enter()
@@ -75,21 +62,12 @@
       //           .attr("fill", "yellow") .attr("stroke", "orange") .attr("stroke-width", function(d) {
       //           return d/2; });
 ;
-    </script>
-  </template>
+</script>
+</template>
 
-  <script>
-    Polymer({
-
-      is: 'bar-chart',
-
-      // properties: {
-      //   prop1: {
-      //     type: String,
-      //     value: 'bar-chart',
-      //   },
-      // },
-
-    });
-  </script>
+<script>
+Polymer({
+  is: 'bar-chart',
+});
+</script>
 </dom-module>

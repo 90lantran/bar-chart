@@ -1,0 +1,27 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<dom-module id="employee-el">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <div>Name: {{info.firstName}} {{info.lastName}}</div>
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'employee-el',
+
+      properties: {
+          info:{
+            type: Object,
+            value: {"firstName":"Lan", "lastName":"Tran"}
+          }
+      },
+
+    });
+  </script>
+</dom-module>
