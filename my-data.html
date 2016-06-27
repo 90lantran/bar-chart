@@ -1,4 +1,5 @@
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
 <script src="../jquery/dist/jquery.js"></script>
 
 
@@ -12,9 +13,20 @@
 	}
 	</style>
 
-	<span>data from - {{dataUrl}}</span><br/>
+	<!-- <span>data from - {{dataUrl}}</span><br/>
 	<span>data response length - {{dataResponse.length}}</span></br>
-	<span>data - {{dataResponse}}</span>
+	<span>data - {{dataResponse}}</span> -->
+	<iron-ajax
+		auto
+		url={{dataUrl}}
+		handle-as="json"
+		last-response="{{response}}"
+		on-response="handleResponse"
+	></iron-ajax>
+
+	<span> data is fetched from {{dataUrl}} </span></br>
+	<span> data length is {{response.length}}</span></br>
+	<span>data is {{response}}</span>
 
 </template>
 
@@ -23,10 +35,12 @@
 Polymer({
 	is:'my-data',
 	properties:{
-		dataResponse:{
+		dataResponses:{
+			// value:{{response}},
 			type: Array,
 			notify: true,
-			readOnly: true
+			readOnly: true,
+			reflectToAttribute: true
 		},
 		dataUrl:{
 			type: String,
@@ -36,10 +50,19 @@ Polymer({
 
 	ready: function(){
 		var self = this;
-		$.get(this.dataUrl, function(json) {
-			self._setDataResponse(json);
-		});
-	}
+		// $.get(this.dataUrl, function(json) {
+		// 	self._setDataResponse(json);
+		// });
+	},
+
+	handleResponse: function(e,detail) {
+		var self = this;
+		console.log(self);
+        self._setDataResponses(detail.xhr.response); 
+        // console.log(e);
+        // this.isBusy = false;
+        // this.fire("handle-response", detail.xhr.response);
+    }
 	
 });
 
