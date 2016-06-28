@@ -10,7 +10,7 @@
 
   </style>
 
-  <svg></svg>
+<div id$="{{plotId}}"></div>
 
 </template>
 
@@ -22,58 +22,79 @@ Polymer({
     data:{
       type: Array,
       notify: true
+    },
+    plotId:{
+      type: Number,
+      value: function(){
+        //         'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        //   var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+        //   return v.toString(16);
+        // })
+  
+          return Math.floor((Math.random() * 10) + 1) + 'abc';
+
+        }
     }
+
   },
 
-  observers:[
-  '_dataChanged(data.*)'
-  ],
-
-  _dataChanged: function(newVal, oldVal) {
-    if(this.data != null && this.data.length > 0 ) {
-      console.log("here");
-      this._draw();    
-    }
+  generateId: function(){
+    return Math.floor((Math.random() * 10) + 1) + 'abc';
   },
 
-  _draw: function(){
-    var self = this;
+  ready: function(){
+          if(this.data != null && this.data.length > 0 ) {
+        console.log("here");
+        //this._draw();    
+      }
+  },
 
-    var w = 800; var h = "700";
-    var svg = d3.select("svg");
-    svg.attr("width",w).attr("high",h);
-    var barPadding = 1;
+    observers:[
+    '_dataChanged(data.*)'
+    ],
 
-    var w = 500; var h = 100;
+    _dataChanged: function(newVal, oldVal) {
+      if(this.data != null && this.data.length > 0 ) {
+        console.log("here");
 
-      // var dataset = [ 5, 10, 13, 19, 21, 25, 22, 18, 15, 13,
-      //         11, 12, 15, 20, 18, 17, 16, 18, 23, 25 ];
+        this._draw();
+        //this._draw('#b');   
+      }
+    },
 
-      // var dataset = [];
-      // for(var i = 0; i < 10; i++){
-      //   var newNumber = Math.floor(Math.random() *30);
-      //   dataset.push(newNumber);
-      // }
+    _draw: function(){
+      var self = this;
 
-      var dataset = self.data;
+      var w = 500; var h = 300;
+      console.log(this.plotId);
+      Element d3elm = this.$$(this.plotId);
+    
 
-      svg.selectAll("rect")
-      .data(dataset)
-      .enter()
-      .append("rect")
-      .attr("x", function(d, i) {
-        return i * (w / dataset.length);
-      })
-      .attr("y", function(d) {
-        return h - (d * 4);
-      })
-      .attr("width", w / dataset.length - barPadding)
-      .attr("height", function(d) {
-        return d * 4;
-      })
-      .attr("fill", function(d) {
-        return "rgb(0, 0, " + (d * 10) + ")";
-      });
+      var svg1 = d3elm.append("svg")
+                    .attr("width", w )
+                    .attr("height", h);
+      this._drawHelper(svg1);
+
+      // var svg2 = d3.select('#b').append("svg")
+      //               .attr("width", w )
+      //               .attr("height", h);            
+      // this._drawHelper(svg2);
+
+      // document.createElement("div")
+      // var myDiv = d3.select("div");
+      // myDiv.attr("id",this.generateId());
+
+      // var svg = myDiv.append("svg")
+      //               .attr("width", w )
+      //               .attr("height", h);            
+      // this._drawHelper(svg);
+
+      //var svg = d3elm.append("svg");
+
+      //console.log(svg);
+
+      //svg.attr("width",w).attr("high",h);
+      
 
       // Draw cicrles charts
       // var circles = svg.selectAll("circle")
@@ -89,7 +110,44 @@ Polymer({
       //           })
       //           .attr("fill", "yellow") .attr("stroke", "orange") .attr("stroke-width", function(d) {
       //           return d/2; });
-}
+    },
+
+    _drawHelper: function(svg){
+      var barPadding = 1;
+
+      var w1 = 500; var h1 = 100;
+
+      // var dataset = [ 5, 10, 13, 19, 21, 25, 22, 18, 15, 13,
+      //         11, 12, 15, 20, 18, 17, 16, 18, 23, 25 ];
+
+      // var dataset = [];
+      // for(var i = 0; i < 10; i++){
+      //   var newNumber = Math.floor(Math.random() *30);
+      //   dataset.push(newNumber);
+      // }
+
+      var dataset = this.data;
+
+      svg.selectAll("rect")
+      .data(dataset)
+      .enter()
+      .append("rect")
+      .attr("x", function(d, i) {
+        return i * (w1 / dataset.length);
+      })
+      .attr("y", function(d) {
+        return h1 - (d * 4);
+      })
+      .attr("width", w1 / dataset.length - barPadding)
+      .attr("height", function(d) {
+        return d * 4;
+      })
+      .attr("fill", function(d) {
+        return "rgb(0, 0, " + (d * 10) + ")";
+      });
+    }
+
+
 
 
 });
